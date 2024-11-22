@@ -34,6 +34,14 @@ public class pharmacy {
         this.type = type;
     }
     
+    public void clearLists() {
+        drug_idList.clear();
+        generic_nameList.clear();
+        brand_nameList.clear();
+        priceList.clear();
+        typeList.clear();
+    }
+    
     public boolean add_pharmacy() {
         try {
             // Connect to database
@@ -79,11 +87,7 @@ public class pharmacy {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM drugs");
             ResultSet rs = ps.executeQuery();
             
-            drug_idList.clear();
-            generic_nameList.clear();
-            brand_nameList.clear();
-            priceList.clear();
-            typeList.clear();
+            clearLists();
 
             while (rs.next()) {
                 drug_id = rs.getInt("drug_id");
@@ -140,5 +144,58 @@ public class pharmacy {
     
     }
     
+    public boolean get_related_shipments(shipment_drug sd, shipments s) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Display all patients
+            PreparedStatement ps = conn.prepareStatement("SELECT d.*, sd.qty, s.date " +
+                    "FROM drugs d " +
+                    "INNER JOIN shipment_drug sd ON d.drug_id = sd.drug_id " +
+                    "INNER JOIN shipments s ON sd.shipment_id = s.shipment_id;");
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+
+            while (rs.next()) {
+                drug_id = rs.getInt("drug_id");
+                generic_name = rs.getString("generic_name");
+                brand_name = rs.getString("brand_name");
+                price = rs.getFloat("price");
+                type = rs.getString("type");
+                
+                sd.qty = rs.getInt("qty");
+                
+                s.date = rs.getString("date");
+                
+                drug_idList.add(drug_id);
+                generic_nameList.add(generic_name);
+                brand_nameList.add(brand_name);
+                priceList.add(price);
+                typeList.add(type);
+                
+                sd.qtyList.add(sd.qty);
+                
+                s.dateList.add(s.date);
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
 }

@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Remove Pharmacy Record</title>
         
-        <link rel="stylesheet" type="teSxt/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
         <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />

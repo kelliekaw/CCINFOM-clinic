@@ -19,7 +19,6 @@
                     <th>Doctor ID</th>
                     <th>Last Name</th>
                     <th>First Name</th>
-                    <th>Specialization</th>
                     <th>Gender</th>
                     <th>Consultation Rate</th>
                     <th>Date of Birth</th>
@@ -36,7 +35,6 @@
                         <td><%= d.doctor_idList.get(i) %></td>
                         <td><%= d.last_nameList.get(i) %></td>
                         <td><%= d.first_nameList.get(i) %></td>
-                        <td<%= d.specList.get(i) %>></td>
                         <td><%= d.genderList.get(i) %></td>
                         <td><%= d.birthdateList.get(i) %></td>
                         <td><%= d.consultation_rateList.get(i) %></td>

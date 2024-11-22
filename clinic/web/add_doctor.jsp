@@ -25,7 +25,8 @@
                String str_mobile_number = request.getParameter("mobile_number");
                long mobile_number = Long.parseLong(str_mobile_number);
                String email_address = request.getParameter("email_address");
-               String specialization = request.getParameter("specialization");
+               String specializations = request.getParameter("selected_specializations");
+               String[] specialization = specializations.split(",");
                d.set_values(last_name, first_name, gender, birthdate, consultation_rate, mobile_number, email_address, specialization);
                boolean status = d.add_doctor();
                if (status) {

@@ -1,15 +1,15 @@
 <%-- 
-    Document   : doctors.jsp
-    Created on : Nov 23, 2024, 12:40:29 AM
+    Document   : doctors_related
+    Created on : Nov 23, 2024, 2:13:18 AM
     Author     : kiwik
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Doctor Records</title>
+        <title>Doctor and Specialization Records</title>
     </head>
     <body>
         <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
@@ -19,6 +19,7 @@
                     <th>Doctor ID</th>
                     <th>Last Name</th>
                     <th>First Name</th>
+                    <th>Specialization</th>
                     <th>Gender</th>
                     <th>Consultation Rate</th>
                     <th>Date of Birth</th>
@@ -35,6 +36,7 @@
                         <td><%= d.doctor_idList.get(i) %></td>
                         <td><%= d.last_nameList.get(i) %></td>
                         <td><%= d.first_nameList.get(i) %></td>
+                        <td><%= d.specializationList.get(i) %></td>
                         <td><%= d.genderList.get(i) %></td>
                         <td><%= d.birthdateList.get(i) %></td>
                         <td><%= d.consultation_rateList.get(i) %></td>

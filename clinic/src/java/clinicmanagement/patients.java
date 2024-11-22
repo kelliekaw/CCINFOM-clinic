@@ -176,9 +176,9 @@ public class patients {
             PreparedStatement ps = conn.prepareStatement("SELECT p.*, v.log_in, v.log_out, "
                     + "d.last_name AS `doc_last_name`, d.first_name AS `doc_first_name`, a.name " +
                     "FROM patients p " +
-                    "LEFT JOIN visits v ON p.patient_id = v.patient_id " +
-                    "LEFT JOIN doctors d ON v.doctor_id = d.doctor_id " +
-                    "LEFT JOIN ref_ailments a ON v.ailment_id = a.ailment_id;");
+                    "INNER JOIN visits v ON p.patient_id = v.patient_id " +
+                    "INNER JOIN doctors d ON v.doctor_id = d.doctor_id " +
+                    "INNER JOIN ref_ailments a ON v.ailment_id = a.ailment_id;");
             ResultSet rs = ps.executeQuery();
             
             clearLists();

@@ -21,9 +21,48 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             Consultation Rate: <input type="number" name="consultation_rate" value="" step ="0.01" min="0" required><br><br>
             Mobile Number: <input type="tel" id="mobile_number" name="mobile_number" required><br><br>
             Email Address: <input type="email" id="email_address" name="email_address" required><br><br>
-            Specialization: <input type="text" id="specialization" name="specialization" required><br><br>
+            Specialization: <br>
+            <label><input type="checkbox" name="specialization" value="Immunologist">Immunologist</label><br>
+            <label><input type="checkbox" name="specialization" value="Dermatologist">Dermatologist</label><br>
+            <label><input type="checkbox" name="specialization" value="Gastroenterologist">Gastroenterologist</label><br>
+            <label><input type="checkbox" name="specialization" value="Rheumatologist">Rheumatologist</label><br>
+            <label><input type="checkbox" name="specialization" value="General Physician">General Physician</label>
+            
+            <br><br>
+            
+            <!-- To store the selected specialization/s -->
+            <input type="hidden" name="selected_specializations" id="selected_specializations" value="">
             
             <input type="submit" value="Submit">
         </form>
+        
+        <script>
+            document.getElementById("doctorForm").addEventListener("submit", function(event) {
+                // Get selected specializations
+                var selectedSpecializations = getSelectedSpecializations();
+
+                // Set the value of the hidden field before submitting
+                document.getElementById("selected_specializations").value = selectedSpecializations.join(",");
+
+                // If no specialization is selected, prevent form submission
+                if (selectedSpecializations.length === 0) {
+                    alert("Please select at least one specialization.");
+                    event.preventDefault();
+                }
+            });
+            
+            function getSelectedSpecializations() {
+                var checkboxes = document.getElementsByName("specialization");
+                var selectedValues = [];
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selectedValues.push(checkboxes[i].value);
+                    }
+                }
+                return selectedValues;
+            }
+        </script>
     </body>
+    
 </html>
+
