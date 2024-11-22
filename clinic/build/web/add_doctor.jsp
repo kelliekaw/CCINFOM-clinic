@@ -23,7 +23,7 @@
                String str_consultation_rate = request.getParameter("consultation_rate");
                float consultation_rate = Float.parseFloat(str_consultation_rate);
                String str_mobile_number = request.getParameter("mobile_number");
-               int mobile_number = Integer.parseInt(str_mobile_number);
+               long mobile_number = Long.parseLong(str_mobile_number);
                String email_address = request.getParameter("email_address");
                String specialization = request.getParameter("specialization");
                d.set_values(last_name, first_name, gender, birthdate, consultation_rate, mobile_number, email_address, specialization);

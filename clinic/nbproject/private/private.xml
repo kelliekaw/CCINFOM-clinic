@@ -3,19 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_sales.html</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/index.html</file>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_sales.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_pharmacy.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_doctor_processing.jsp</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/sales.java</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/doctors.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_sale_processing.jsp</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/patients.java</file>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_patient.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_doctor.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_patient_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_record.html</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_doctor.jsp</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/pharmacy.java</file>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_pharmacy.jsp</file>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_pharmacy.html</file>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_doctor.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_patient.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_sale.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/css/styles.css</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_patient.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_pharmacy_processing.jsp</file>
         </group>
     </open-files>
 </project-private>

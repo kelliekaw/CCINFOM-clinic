@@ -21,7 +21,7 @@
                String gender = request.getParameter("gender");
                String birthdate = request.getParameter("birthdate");
                String str_mobile_number = request.getParameter("mobile_number");
-               int mobile_number = Integer.parseInt(str_mobile_number);
+               long mobile_number = Long.parseLong(str_mobile_number);
                String email_address = request.getParameter("email_address");
                p.set_values(last_name, first_name, gender, birthdate, mobile_number, email_address);
                boolean status = p.add_patient();

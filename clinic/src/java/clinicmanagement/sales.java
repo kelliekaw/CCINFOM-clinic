@@ -14,11 +14,13 @@ import java.util.*;
 import java.sql.*;
 
 public class sales {
+    public int sale_id;
     public int visit_id;
     public String mode_payment;
     public String ref_num;
     public float amt_paid;
     
+    public ArrayList<Integer> sale_idList = new ArrayList<>();
     public ArrayList<Integer> visit_idList = new ArrayList<>();
     public ArrayList<String> mode_paymentList = new ArrayList<>();
     public ArrayList<String> ref_numList = new ArrayList<>();
@@ -61,5 +63,83 @@ public class sales {
             return false;
         }
     }
+    
+    public boolean select_sale() {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Display all patients
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM sales");
+            ResultSet rs = ps.executeQuery();
+            
+            sale_idList.clear();
+            visit_idList.clear();
+            mode_paymentList.clear();
+            ref_numList.clear();
+            amt_paidList.clear();
+
+            while (rs.next()) {
+                sale_id = rs.getInt("sale_id");
+                visit_id = rs.getInt("visit_id");
+                mode_payment = rs.getString("mode_payment");
+                ref_num = rs.getString("ref_num");
+                amt_paid = rs.getFloat("amt_paid");
+                
+                sale_idList.add(sale_id);
+                visit_idList.add(visit_id);
+                mode_paymentList.add(mode_payment);
+                ref_numList.add(ref_num);
+                amt_paidList.add(amt_paid);
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean remove_sale(int saleID) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+            
+            // Establish Connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Delete the drug
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM sales WHERE sale_id = ?;");
+            ps.setInt(1, saleID);
+            int check = ps.executeUpdate();
+            
+            ps.close();
+            conn.close();
+            
+            // Return true if a row was deleted
+            return check > 0;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    
     
 }

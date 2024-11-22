@@ -20,7 +20,8 @@
                String brand_name = request.getParameter("brand_name");
                String str_price = request.getParameter("price");
                float price = Float.parseFloat(str_price);
-               ph.set_values(generic_name, brand_name, price);
+               String type = request.getParameter("type");
+               ph.set_values(generic_name, brand_name, price, type);
                boolean status = ph.add_pharmacy();
                if (status) {
            %>

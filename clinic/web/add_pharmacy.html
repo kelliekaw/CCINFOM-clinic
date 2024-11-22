@@ -13,8 +13,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <form action="add_pharmacy.jsp">
             <h2>Add Pharmacy Record</h2>
             Generic Name: <input type="text" id="generic_name" name="generic_name" required><br><br>
-            Brand Name: <input type="text" id="brand_name" name="brand_name" required><br><br>
+            Brand Name: <input type="text" id="brand_name" name="brand_name"><br><br>
             Price: <input type="number" name="price" value="" step ="0.01" min="0" required><br><br>
+            Type:<br>
+            <label><input type="radio" name="type" value="Capsule" required>Capsule<br></label>
+            <label><input type="radio" name="type" value="Tablet">Tablet<br></label>
+            <label><input type="radio" name="type" value="Ointment">Ointment<br></label>
+            <br>
             <input type="submit" value="Submit">
         </form>
     </body>
