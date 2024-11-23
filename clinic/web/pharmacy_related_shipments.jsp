@@ -25,6 +25,7 @@
                     <th>Type</th>
                     <th>Shipment Date</th>
                     <th>Quantity</th>
+                    <th>Shipment Cost</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +41,7 @@
                         <td><%= ph.typeList.get(i) %></td>
                         <td><%= sh.dateList.get(i) %></td>
                         <td><%= sd.qtyList.get(i) %></td>
+                        <td><%= sh.shipment_costList.get(i) %></td>
                     </tr>
                 <% } %>
             </tbody>

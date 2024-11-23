@@ -26,7 +26,6 @@
                     <th>Mobile Number</th>
                     <th>Email</th>
                     <th>Log In</th>
-                    <th>Log Out</th>
                     <th>Ailment</th>
                     <th>Assigned Doctor</th>
                 </tr>
@@ -44,7 +43,6 @@
                         <td><%= p.mobile_numberList.get(i) %></td>
                         <td><%= p.email_addressList.get(i) %></td>
                         <td><%= v.log_inList.get(i) %></td>
-                        <td><%= v.log_outList.get(i) %></td>
                         <td><%= a.nameList.get(i) %></td>
                         <td><%= d.last_nameList.get(i)%>, <%= d.first_nameList.get(i)%> <%= d.middle_initialList.get(i) %></td>
                     </tr>

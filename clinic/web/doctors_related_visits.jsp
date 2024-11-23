@@ -28,7 +28,6 @@
                     <th>Email</th>
                     <th>Patient Name</th>
                     <th>Log In</th>
-                    <th>Log Out</th>
                     <th>Ailment</th>
                 </tr>
             </thead>
@@ -47,7 +46,6 @@
                         <td><%= d.email_addressList.get(i) %></td>
                         <td><%= p.last_nameList.get(i) %>, <%= p.first_nameList.get(i) %> <%= p.middle_initialList.get(i) %></td>
                         <td><%= v.log_inList.get(i) %></td>
-                        <td><%= v.log_outList.get(i) %></td>
                         <td><%= a.nameList.get(i) %></td>
                     </tr>
                 <% } %>
