@@ -21,6 +21,27 @@ public class sales {
     public ArrayList<Integer> sale_idList = new ArrayList<>();
     public ArrayList<Integer> visit_idList = new ArrayList<>();
     public ArrayList<Float> amt_paidList = new ArrayList<>();
+    
+    public String month_year;
+    public float total_income;
+    public int total_shipments;
+    public float monthly_profit;
+    
+    public ArrayList<String> month_yearList = new ArrayList<>();
+    public ArrayList<Float> total_incomeList = new ArrayList<>();
+    public ArrayList<Integer> total_shipmentsList = new ArrayList<>();
+    public ArrayList<Float> monthly_profitList = new ArrayList<>();
+    
+    public int total_sales;
+    public float total_sales_amt;
+    public float avg_sale_per_visit;
+    
+    public ArrayList<Integer> total_salesList = new ArrayList<>();
+    public ArrayList<Float> total_sales_amtList = new ArrayList<>();
+    public ArrayList<Float> avg_sale_per_visitList = new ArrayList<>();
+    
+    
+
 
     public sales() {}
     
@@ -365,6 +386,108 @@ public class sales {
             e.printStackTrace();
             return false;
         }
+        
     }
     
+    public boolean finance_report() {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            PreparedStatement ps = conn.prepareStatement("SELECT DATE_FORMAT(v.log_in, '%Y-%m') AS month_year, " +
+                "SUM(s.amt_paid) + SUM(d.consultation_rate) AS total_income, " +
+                "IFNULL(SUM(sh.shipment_cost), 0) AS total_shipments, " +
+                "(SUM(s.amt_paid) + SUM(d.consultation_rate) - IFNULL(SUM(sh.shipment_cost), 0)) AS monthly_profit " +
+                "FROM clinic.sales s " +
+                "JOIN clinic.visits v ON s.visit_id = v.visit_id " +
+                "JOIN  clinic.doctors d ON v.doctor_id = d.doctor_id " +
+                "LEFT JOIN clinic.shipments sh ON DATE_FORMAT(v.log_in, '%Y-%m') = DATE_FORMAT(sh.date, '%Y-%m') " +
+                "GROUP BY month_year " +
+                "ORDER BY month_year;");
+                 
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            
+            while (rs.next()) {
+                month_year = rs.getString("month_year");
+                total_income = rs.getFloat("total_income");
+                total_shipments = rs.getInt("total_shipments");
+                monthly_profit = rs.getFloat("monthly_profit");
+                
+                month_yearList.add(month_year);
+                total_incomeList.add(total_income);
+                total_shipmentsList.add(total_shipments);
+                monthly_profitList.add(monthly_profit);
+            }
+            ps.close();
+            conn.close();
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+    }
+    
+    public boolean sales_per_doctor(doctors d, visits v) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            PreparedStatement ps = conn.prepareStatement("SELECT d.first_name AS doctor_first_name, d.last_name AS doctor_last_name, " +
+                "COUNT(s.sale_id) AS total_sales, " +
+                "SUM(s.amt_paid) AS total_sales_amount, " +
+                "AVG(s.amt_paid) AS avg_sale_per_visit " +
+                "FROM clinic.sales s " +
+                "JOIN clinic.visits v ON s.visit_id = v.visit_id " +
+                "JOIN clinic.doctors d ON v.doctor_id = d.doctor_id " +
+                "GROUP BY d.doctor_id " +
+                "ORDER BY total_sales DESC;");
+                 
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            d.clearLists();
+            v.clearLists();
+            
+            while (rs.next()) {
+                d.first_name = rs.getString("doctor_first_name");
+                d.last_name = rs.getString("doctor_last_name");
+                total_sales = rs.getInt("total_sales");
+                total_sales_amt = rs.getFloat("total_sales_amount");
+                avg_sale_per_visit = rs.getFloat("avg_sale_per_visit");
+                
+                d.first_nameList.add(d.first_name);
+                d.last_nameList.add(d.last_name);
+                total_salesList.add(total_sales);
+                total_sales_amtList.add(total_sales_amt);
+                avg_sale_per_visitList.add(avg_sale_per_visit);
+            }
+            ps.close();
+            conn.close();
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

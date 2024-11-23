@@ -19,11 +19,19 @@ public class visits {
     public int ailment_id;
     public int doctor_id;
     
+    public String visit_year;
+    public String visit_month;
+    public int num_visits;
+    
     public ArrayList<Integer> visit_idList = new ArrayList<>();
     public ArrayList<Integer> patient_idList = new ArrayList<>();
     public ArrayList<String> log_inList = new ArrayList<>();
     public ArrayList<Integer> ailment_idList = new ArrayList<>();
     public ArrayList<Integer> doctor_idList = new ArrayList<>();
+    
+    public ArrayList<String> visit_yearList = new ArrayList<>();
+    public ArrayList<String> visit_monthList = new ArrayList<>();
+    public ArrayList<Integer> num_visitsList = new ArrayList<>();
     
     public visits() {}
     
@@ -33,6 +41,9 @@ public class visits {
         log_inList.clear();
         ailment_idList.clear();
         doctor_idList.clear();
+        visit_yearList.clear();
+        visit_monthList.clear();
+        num_visitsList.clear();
     }
     
     public boolean select_visit(patients p, doctors d, ailments a) {

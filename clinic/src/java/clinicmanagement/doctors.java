@@ -459,7 +459,10 @@ public class doctors {
                 mobile_number = rs.getLong("mobile_number");
                 email_address = rs.getString("email_address");
             }
-
+            
+            ps.close();
+            conn.close();
+            
             return true;
             
         } catch(Exception e) {
@@ -498,4 +501,58 @@ public class doctors {
             return false;
         }
     }
+    
+    public boolean activity_report(visits v) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            PreparedStatement ps = conn.prepareStatement("SELECT v.doctor_id, d.first_name, d.middle_initial, d.last_name, "
+                + "YEAR(v.log_in) as visit_year, MONTH(v.log_in) as visit_month, COUNT(v.visit_id) as number_of_visits " +
+                "FROM visits v " +
+                "JOIN doctors d ON v.doctor_id = d.doctor_id " +
+                "GROUP BY YEAR(v.log_in), MONTH(v.log_in), v.doctor_id " +
+                "ORDER BY YEAR(v.log_in), MONTH(v.log_in) ASC;");
+                 
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            v.clearLists();
+            
+            while (rs.next()) {
+                v.doctor_id = rs.getInt("v.doctor_id");
+                first_name = rs.getString("d.first_name");
+                middle_initial = rs.getString("d.middle_initial");
+                last_name = rs.getString("d.last_name");
+                v.visit_year = rs.getString("visit_year");
+                v.visit_month = rs.getString("visit_month");
+                v.num_visits = rs.getInt("number_of_visits");
+                
+                v.doctor_idList.add(v.doctor_id);
+                first_nameList.add(first_name);
+                middle_initialList.add(middle_initial);
+                last_nameList.add(last_name);
+                v.visit_yearList.add(v.visit_year);
+                v.visit_monthList.add(v.visit_month);
+                v.num_visitsList.add(v.num_visits);
+            }
+            ps.close();
+            conn.close();
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    
 }
