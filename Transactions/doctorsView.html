@@ -164,7 +164,7 @@
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/diagnosis/${patientId}`);
+            const response = await fetch(`http://localhost:8000/diagnosis/${patientId}`);
             if (!response.ok) {
                 const error = await response.json();
                 alert(error.message || 'Error fetching diagnosis details.');
@@ -194,7 +194,7 @@
         const drugsTableBody = document.getElementById('drugsTable').getElementsByTagName('tbody')[0];
 
         try {
-            const response = await fetch(`http://localhost:8080/prescriptions/${visitId}`);
+            const response = await fetch(`http://localhost:8000/prescriptions/${visitId}`);
             const drugs = await response.json();
 
             drugsTableBody.innerHTML = '';  // Clear existing rows
@@ -220,7 +220,7 @@
         const amount = document.getElementById("amount").value;
 
         try {
-            const response = await fetch("http://localhost:8080/prescriptions/add", {
+            const response = await fetch("http://localhost:8000/prescriptions/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

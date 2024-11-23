@@ -76,7 +76,7 @@
 
       try {
         // Make GET request to the backend API
-        const response = await fetch(`http://localhost:8080/patients?first_name=${firstName}&last_name=${lastName}`);
+        const response = await fetch(`http://localhost:8000/patients?first_name=${firstName}&last_name=${lastName}`);
 
         if (response.ok) {
           const data = await response.json();

@@ -68,7 +68,7 @@
         async function fetchLowStockDrugs() {
             try {
                 // Fetch data from the API
-                const response = await fetch('http://localhost:8080/lowinventory');
+                const response = await fetch('http://localhost:8000/lowinventory');
                 
                 // Check if response is ok (status 200-299)
                 if (!response.ok) {

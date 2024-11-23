@@ -135,7 +135,7 @@
 
         try {
             // Request doctors who specialize in the selected ailment
-            const response = await fetch(`http://localhost:8080/doctors/for-ailment/${ailmentName}`);
+            const response = await fetch(`http://localhost:8000/doctors/for-ailment/${ailmentName}`);
             const doctors = await response.json();
 
             // Clear existing table rows
@@ -174,7 +174,7 @@
         };
 
         try {
-            const response = await fetch('http://localhost:8080/visits', {
+            const response = await fetch('http://localhost:8000/visits', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
