@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*, clinicmanagement.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +13,7 @@
     </head>
     <body>
         <jsp:useBean id="p" class="clinicmanagement.patients" scope="session" />
-        <form action="index.html">
+        <form action="index.html" method="post">
             <% // Receive values
                String str_patient_id = request.getParameter("patient_id");
                if (str_patient_id == null || str_patient_id.trim().isEmpty()) { %>

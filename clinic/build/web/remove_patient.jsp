@@ -16,7 +16,7 @@
     </head>
     <body>
         <jsp:useBean id="p" class="clinicmanagement.patients" scope="session" />
-        <form action="remove_patient_processing.jsp">
+        <form action="remove_patient_processing.jsp" method="post">
             <h2>Select Patient Record to Remove</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Patient Record</button>
@@ -26,7 +26,7 @@
                         for (int i = 0; i < p.patient_idList.size(); i++) {
                     %>
                         <div class="dropdown-item" data-value="<%= p.patient_idList.get(i) %>">
-                            <strong><%= p.last_nameList.get(i) %>, <%= p.first_nameList.get(i) %></strong><br>
+                            <strong><%= p.last_nameList.get(i) %>, <%= p.first_nameList.get(i) %> <%= p.middle_initialList.get(i) %></strong><br>
                             Gender: <%= p.genderList.get(i) %><br>
                             DOB: <%= p.birthdateList.get(i) %><br>
                             Mobile: <%= p.mobile_numberList.get(i) %><br>

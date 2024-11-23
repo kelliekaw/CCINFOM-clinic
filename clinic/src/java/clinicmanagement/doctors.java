@@ -16,6 +16,7 @@ public class doctors {
     public int doctor_id;
     public String last_name;
     public String first_name;
+    public String middle_initial;
     public String gender;
     public String birthdate;
     public float consultation_rate;
@@ -27,6 +28,7 @@ public class doctors {
     public ArrayList<Integer> doctor_idList = new ArrayList<>();
     public ArrayList<String> last_nameList = new ArrayList<>();
     public ArrayList<String> first_nameList = new ArrayList<>();
+    public ArrayList<String> middle_initialList = new ArrayList<>();
     public ArrayList<String> genderList = new ArrayList<>();
     public ArrayList<String> birthdateList = new ArrayList<>();
     public ArrayList<Float> consultation_rateList = new ArrayList<>();
@@ -36,9 +38,10 @@ public class doctors {
 
     public doctors() {}
     
-    public void set_values(String last_name, String first_name, String gender, String birthdate, float consultation_rate, long mobile_number, String email_address, String[] specializations) {
+    public void set_values(String last_name, String first_name, String middle_initial, String gender, String birthdate, float consultation_rate, long mobile_number, String email_address, String[] specializations) {
         this.last_name = last_name;
         this.first_name = first_name;
+        this.middle_initial = middle_initial;
         this.gender = gender;
         this.birthdate = birthdate;
         this.consultation_rate = consultation_rate;
@@ -51,6 +54,7 @@ public class doctors {
         doctor_idList.clear();
         last_nameList.clear();
         first_nameList.clear();
+        middle_initialList.clear();
         genderList.clear();
         birthdateList.clear();
         consultation_rateList.clear();
@@ -59,8 +63,7 @@ public class doctors {
         specializationList.clear();
     }
     
-    public boolean add_doctor() {
-        ResultSet rs;
+    public boolean add_doctor() {        
         try {
             // Connect to database
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -73,45 +76,25 @@ public class doctors {
             Connection conn = DriverManager.getConnection(url, username, password);
             
             // Prepare SQL Statements
-            
-            // Check if specialization exists
-//            PreparedStatement ps = conn.prepareStatement("SELECT speci_id FROM ref_specializations WHERE title = ?;");
-//            ps.setString(1, specialization);
-//            rs = ps.executeQuery();
-//            
-//            int speci_id = -1;
-//            if (rs.next()) {
-//                speci_id = rs.getInt("speci_id");
-//            } else {
-//                ps = conn.prepareStatement("INSERT INTO ref_specializations (title) VALUE (?);",
-//                        Statement.RETURN_GENERATED_KEYS);
-//                ps.setString(1, specialization);
-//                ps.executeUpdate();
-//                rs = ps.getGeneratedKeys();
-//                if (rs.next())
-//                    speci_id = rs.getInt(1);
-//            }
-            
             // Save new doctor
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO doctors (last_name, first_name, gender, birthdate, consultation_rate, mobile_number, email_address) VALUE (?, ?, ?, ?, ?, ?, ?);",
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO doctors (last_name, first_name, middle_initial, gender, birthdate, consultation_rate, mobile_number, email_address) VALUE (?, ?, ?, ?, ?, ?, ?, ?);",
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, last_name);
             ps.setString(2, first_name);
-            ps.setString(3, gender);
-            ps.setString(4, birthdate);
-            ps.setFloat(5, consultation_rate);
-            ps.setLong(6, mobile_number);
-            ps.setString(7, email_address);
+            ps.setString(3, middle_initial);
+            ps.setString(4, gender);
+            ps.setString(5, birthdate);
+            ps.setFloat(6, consultation_rate);
+            ps.setLong(7, mobile_number);
+            ps.setString(8, email_address);
             ps.executeUpdate();
             
-            rs = ps.getGeneratedKeys();
+            ResultSet rs = ps.getGeneratedKeys();
             if (rs.next())  
                 doctor_id = rs.getInt(1);
-            
 
-            // save into doctor_speci
+            // Save into doctor_speci
             int speci_id = -1;
-            conn.setAutoCommit(false);
             ps = conn.prepareStatement("INSERT INTO doctor_speci (doctor_id, speci_id) VALUES (?, ?);");
             for (String s: specializations) {
                 PreparedStatement ps1 = conn.prepareStatement("SELECT speci_id FROM ref_specializations WHERE title = ?;");
@@ -148,10 +131,8 @@ public class doctors {
             // Establish connection
             Connection conn = DriverManager.getConnection(url, username, password);
             
-            // Display all doctors
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM doctors d "
-                    + "LEFT JOIN doctor_speci ds ON d.doctor_id = ds.doctor_id "
-                    + "LEFT JOIN ref_specializations s ON ds.speci_id = s.speci_id;");
+            // Get all doctors
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM doctors d;");
             ResultSet rs = ps.executeQuery();
             
             clearLists();
@@ -160,6 +141,7 @@ public class doctors {
                 doctor_id = rs.getInt("doctor_id");
                 last_name = rs.getString("last_name");
                 first_name = rs.getString("first_name");
+                middle_initial = rs.getString("middle_initial");
                 gender = rs.getString("gender");
                 birthdate = rs.getString("birthdate");
                 consultation_rate = rs.getFloat("consultation_rate");
@@ -169,12 +151,12 @@ public class doctors {
                 doctor_idList.add(doctor_id);
                 last_nameList.add(last_name);
                 first_nameList.add(first_name);
+                middle_initialList.add(middle_initial);
                 genderList.add(gender);
                 birthdateList.add(birthdate);
                 consultation_rateList.add(consultation_rate);
                 mobile_numberList.add(mobile_number);
                 email_addressList.add(email_address);
-                specializationList.add(rs.getString("title"));
             }
             
             ps.close();
@@ -200,7 +182,7 @@ public class doctors {
             // Establish connection
             Connection conn = DriverManager.getConnection(url, username, password);
             
-            // Delete the patient
+            // Prepare the statement to delete the doctor record
             PreparedStatement ps = conn.prepareStatement("DELETE FROM doctors WHERE doctor_id = ?;");
             ps.setInt(1, doctorID);
             int check = ps.executeUpdate();
@@ -218,6 +200,66 @@ public class doctors {
     
     }
     
+    public boolean get_related_speci() {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SELECT statement
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM doctors d "
+                    + "LEFT JOIN doctor_speci ds ON d.doctor_id = ds.doctor_id "
+                    + "LEFT JOIN ref_specializations s ON ds.speci_id = s.speci_id;");
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            
+            while (rs.next()) {
+                doctor_id = rs.getInt("doctor_id");
+                last_name = rs.getString("last_name");
+                first_name = rs.getString("first_name");
+                middle_initial = rs.getString("middle_initial");
+                gender = rs.getString("gender");
+                birthdate = rs.getString("birthdate");
+                consultation_rate = rs.getFloat("consultation_rate");
+                mobile_number = rs.getLong("mobile_number");
+                email_address = rs.getString("email_address");
+                
+                if (doctor_idList.contains(doctor_id)) { // if the doctor is already included (due to specializations)
+                    String updatedSpecialization = specializationList.get(doctor_idList.indexOf(doctor_id)).concat(", " + rs.getString("title"));
+                    specializationList.set(doctor_idList.indexOf(doctor_id), updatedSpecialization);
+                }
+                else {
+                    doctor_idList.add(doctor_id);
+                    last_nameList.add(last_name);
+                    first_nameList.add(first_name);
+                    middle_initialList.add(middle_initial);
+                    genderList.add(gender);
+                    birthdateList.add(birthdate);
+                    consultation_rateList.add(consultation_rate);
+                    mobile_numberList.add(mobile_number);
+                    email_addressList.add(email_address);
+                    specializationList.add(rs.getString("title"));
+                }
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     public boolean get_related_visits(visits v, patients p, ailments a) {
         try {
             // Connect to database
@@ -230,7 +272,7 @@ public class doctors {
             // Establish connection
             Connection conn = DriverManager.getConnection(url, username, password);
             
-            // Display all patients
+            // Prepare SELECT Statement
             PreparedStatement ps = conn.prepareStatement("SELECT d.*, p.last_name AS `patient_lname`, p.first_name AS `patient_fname`, "
                     + "v.log_in, v.log_out, a.name " +
                     "FROM doctors d " +
@@ -248,6 +290,7 @@ public class doctors {
                 doctor_id = rs.getInt("doctor_id");
                 last_name = rs.getString("last_name");
                 first_name = rs.getString("first_name");
+                middle_initial = rs.getString("middle_initial");
                 gender = rs.getString("gender");
                 birthdate = rs.getString("birthdate");
                 consultation_rate = rs.getFloat("consultation_rate");
@@ -265,6 +308,7 @@ public class doctors {
                 doctor_idList.add(doctor_id);
                 last_nameList.add(last_name);
                 first_nameList.add(first_name);
+                middle_initialList.add(middle_initial);
                 genderList.add(gender);
                 birthdateList.add(birthdate);
                 consultation_rateList.add(consultation_rate);
@@ -284,6 +328,164 @@ public class doctors {
             conn.close();
 
             return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean filter_doctors(String gender_filter, String[] specialization_filter, String min_rate, String max_rate) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            String query = "SELECT * FROM doctors d " +
+                    "LEFT JOIN doctor_speci ds ON d.doctor_id = ds.doctor_id " + 
+                    "LEFT JOIN ref_specializations s ON ds.speci_id = s.speci_id " +
+                    "WHERE 1=1";
+            
+            if (gender_filter != null && !gender_filter.isEmpty()) {
+                query += " AND gender = ?";
+            }
+            if (specialization_filter != null) {
+                query += " AND (s.title = ?";
+                for (int x = 1; x < specialization_filter.length; x++) {
+                    query += " OR s.title = ?";
+                }
+                query += ")";
+            }
+            if (min_rate != null && !min_rate.isEmpty()) {
+                query += " AND consultation_rate >= ?";
+            }
+            if (max_rate != null && !max_rate.isEmpty()) {
+                query += " AND consultation_rate <= ?";
+            }
+            
+            PreparedStatement ps = conn.prepareStatement(query);
+            
+            int index = 1;
+            if (gender_filter != null && !gender_filter.isEmpty()) {
+                ps.setString(index++, gender_filter);
+            }
+            if (specialization_filter != null) {
+                for (String s: specialization_filter) {
+                    ps.setString(index++, s);
+                }
+            }
+            if (min_rate != null && !min_rate.isEmpty()) {
+                ps.setFloat(index++, Float.parseFloat(min_rate));
+            }
+            if (max_rate != null && !max_rate.isEmpty()) {
+                ps.setFloat(index++, Float.parseFloat(max_rate));
+            }
+            
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            
+            while (rs.next()) {
+                doctor_id = rs.getInt("doctor_id");
+                last_name = rs.getString("last_name");
+                first_name = rs.getString("first_name");
+                middle_initial = rs.getString("middle_initial");
+                gender = rs.getString("gender");
+                birthdate = rs.getString("birthdate");
+                consultation_rate = rs.getFloat("consultation_rate");
+                mobile_number = rs.getLong("mobile_number");
+                email_address = rs.getString("email_address");
+                
+                doctor_idList.add(doctor_id);
+                last_nameList.add(last_name);
+                first_nameList.add(first_name);
+                middle_initialList.add(middle_initial);
+                genderList.add(gender);
+                birthdateList.add(birthdate);
+                consultation_rateList.add(consultation_rate);
+                mobile_numberList.add(mobile_number);
+                email_addressList.add(email_address);
+                specializationList.add(rs.getString("title"));
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean get_doctor_record(int doctorID) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SELECT statement
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM doctors WHERE doctor_id = ?;");
+            ps.setInt(1, doctorID);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                doctor_id = rs.getInt("doctor_id");
+                last_name = rs.getString("last_name");
+                first_name = rs.getString("first_name");
+                middle_initial = rs.getString("middle_initial");
+                gender = rs.getString("gender");
+                birthdate = rs.getString("birthdate");
+                consultation_rate = rs.getFloat("consultation_rate");
+                mobile_number = rs.getLong("mobile_number");
+                email_address = rs.getString("email_address");
+            }
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean update_doctor(int doctorID, String lastName, String firstName, String middleInitial, long mobileNumber, String emailAddress) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            // Update doctor
+            PreparedStatement ps = conn.prepareStatement("UPDATE doctors SET last_name = ?, first_name = ?, middle_initial = ?, "
+                    + "mobile_number = ?, email_address = ? WHERE doctor_id = ?;");
+            ps.setString(1, lastName);
+            ps.setString(2, firstName);
+            ps.setString(3, middleInitial);
+            ps.setLong(4, mobileNumber);
+            ps.setString(5, emailAddress);
+            ps.setInt(6, doctorID);
+            
+            return ps.executeUpdate() > 0;
             
         } catch(Exception e) {
             e.printStackTrace();

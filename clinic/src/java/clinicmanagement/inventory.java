@@ -9,24 +9,23 @@ package clinicmanagement;
  * @author kiwik
  */
 import java.util.*;
-public class drugs_sold {
-    
-    public int sale_id;
+public class inventory {
     public int shipment_id;
     public int drug_id;
     public int qty;
+    public String expiry_date;
     
-    public ArrayList<Integer> sale_idList = new ArrayList<>();
     public ArrayList<Integer> shipment_idList = new ArrayList<>();
     public ArrayList<Integer> drug_idList = new ArrayList<>();
     public ArrayList<Integer> qtyList = new ArrayList<>();
+    public ArrayList<String> expiry_dateList = new ArrayList<>();
     
-    public drugs_sold() {}
+    public inventory() {}
     
     public void clearLists() {
-        sale_idList.clear();
         shipment_idList.clear();
         drug_idList.clear();
         qtyList.clear();
+        expiry_dateList.clear();
     }
 }

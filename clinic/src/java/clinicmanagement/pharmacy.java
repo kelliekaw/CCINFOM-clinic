@@ -83,7 +83,7 @@ public class pharmacy {
             // Establish connection
             Connection conn = DriverManager.getConnection(url, username, password);
             
-            // Display all patients
+            // Gets all drugs
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM drugs");
             ResultSet rs = ps.executeQuery();
             
@@ -126,7 +126,7 @@ public class pharmacy {
             // Establish Connection
             Connection conn = DriverManager.getConnection(url, username, password);
                     
-            // Delete the drug
+            // Prepare SQL statement to delete a pharmacy record
             PreparedStatement ps = conn.prepareStatement("DELETE FROM drugs WHERE drug_id = ?;");
             ps.setInt(1, drugID);
             int check = ps.executeUpdate();
@@ -156,7 +156,7 @@ public class pharmacy {
             // Establish connection
             Connection conn = DriverManager.getConnection(url, username, password);
             
-            // Display all patients
+            // Prepare SELECT statement
             PreparedStatement ps = conn.prepareStatement("SELECT d.*, sd.qty, s.date " +
                     "FROM drugs d " +
                     "INNER JOIN shipment_drug sd ON d.drug_id = sd.drug_id " +
@@ -198,4 +198,136 @@ public class pharmacy {
         }
     }
     
+    public boolean get_related_prescriptions(prescribed_drugs pd, visits v, patients p) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SELECT statement
+            PreparedStatement ps = conn.prepareStatement("SELECT d.*, p.last_name, p.first_name, pd.qty_drugs " +
+                    "FROM drugs d " +
+                    "INNER JOIN prescribed_drugs pd ON d.drug_id = pd.drug_id " +
+                    "INNER JOIN visits v ON pd.visit_id = v.visit_id " +
+                    "INNER JOIN patients p ON v.patient_id = p.patient_id;");
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+            pd.clearLists();
+            v.clearLists();
+            p.clearLists();
+            
+            while (rs.next()) {
+                drug_id = rs.getInt("drug_id");
+                generic_name = rs.getString("generic_name");
+                brand_name = rs.getString("brand_name");
+                price = rs.getFloat("price");
+                type = rs.getString("type");
+                
+                pd.qty_drugs = rs.getInt("qty_drugs");
+                
+                p.last_name = rs.getString("last_name");
+                p.first_name = rs.getString("first_name");
+                
+                drug_idList.add(drug_id);
+                generic_nameList.add(generic_name);
+                brand_nameList.add(brand_name);
+                priceList.add(price);
+                typeList.add(type);
+                
+                pd.qty_drugsList.add(pd.qty_drugs);
+                p.last_nameList.add(p.last_name);
+                p.first_nameList.add(p.first_name);
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean filter_pharmacy(String[] type_filter, String min_price, String max_price) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            String query = "SELECT * FROM drugs WHERE 1=1";
+            
+            if (type_filter != null) {
+                query += " AND (type = ?";
+                for (int x = 1; x < type_filter.length; x++) {
+                    query += " OR type = ?";
+                }
+                query += ")";
+            }
+            
+            if (min_price != null && !min_price.isEmpty()) {
+                query += " AND price >= ?";
+            }
+            if (max_price != null && !max_price.isEmpty()) {
+                query += " AND price <= ?";
+            }
+            
+            PreparedStatement ps = conn.prepareStatement(query);
+            
+            int index = 1;
+            if (type_filter != null) {
+                for (String s: type_filter) {
+                    ps.setString(index++, s);
+                }
+            }
+            
+            if (min_price != null && !min_price.isEmpty()) {
+                ps.setFloat(index++, Float.parseFloat(min_price));
+            }
+            if (max_price != null && !max_price.isEmpty()) {
+                ps.setFloat(index++, Float.parseFloat(max_price));
+            }
+                        
+            ResultSet rs = ps.executeQuery();
+            
+            clearLists();
+
+            while (rs.next()) {
+                drug_id = rs.getInt("drug_id");
+                generic_name = rs.getString("generic_name");
+                brand_name = rs.getString("brand_name");
+                price = rs.getFloat("price");
+                type = rs.getString("type");
+                
+                drug_idList.add(drug_id);
+                generic_nameList.add(generic_name);
+                brand_nameList.add(brand_name);
+                priceList.add(price);
+                typeList.add(type);
+            }
+            
+            ps.close();
+            conn.close();
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -16,7 +16,7 @@
     </head>
     <body>
         <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
-        <form action="remove_doctor_processing.jsp">
+        <form action="remove_doctor_processing.jsp" method="post">
             <h2>Select Doctor Record to Remove</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Doctor Record</button>
@@ -26,7 +26,7 @@
                         for (int i = 0; i < d.doctor_idList.size(); i++) {
                     %>
                         <div class="dropdown-item" data-value="<%= d.doctor_idList.get(i) %>">
-                            <strong><%= d.last_nameList.get(i) %>, <%= d.first_nameList.get(i) %></strong><br>
+                            <strong><%= d.last_nameList.get(i) %>, <%= d.first_nameList.get(i) %> <%= d.middle_initialList.get(i) %></strong><br>
                             Specialization: <%= d.specializationList.get(i) %><br>
                             Gender: <%= d.genderList.get(i) %><br>
                             DOB: <%= d.birthdateList.get(i) %><br>
@@ -59,10 +59,10 @@
             dropdownItems.forEach(item => {
                 item.addEventListener('click', function () {
                     const selectedRecord = item.querySelector('strong').innerText;  // Get the record's display text
-                    const doctorId = item.getAttribute('data-value');  // Get the patient ID from data-value attribute
+                    const doctorId = item.getAttribute('data-value');  // Get the doctor ID from data-value attribute
 
                     dropdownBtn.innerText = selectedRecord;  // Update button text with selected record
-                    document.querySelector('input[name="doctor_id"]').value = doctorId;  // Set the hidden input value to patient ID
+                    document.querySelector('input[name="doctor_id"]').value = doctorId;  // Set the hidden input value to doctor ID
 
                 });
             });

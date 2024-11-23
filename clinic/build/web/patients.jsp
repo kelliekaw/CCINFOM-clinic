@@ -19,8 +19,7 @@
             <thead>
                 <tr>
                     <th>Patient ID</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
+                    <th>Full Name</th>
                     <th>Gender</th>
                     <th>Date of Birth</th>
                     <th>Mobile Number</th>
@@ -34,8 +33,7 @@
                 %>
                     <tr>
                         <td><%= p.patient_idList.get(i) %></td>
-                        <td><%= p.last_nameList.get(i) %></td>
-                        <td><%= p.first_nameList.get(i) %></td>
+                        <td><%= p.last_nameList.get(i) %>, <%= p.first_nameList.get(i) %> <%= p.middle_initialList.get(i) %></td>
                         <td><%= p.genderList.get(i) %></td>
                         <td><%= p.birthdateList.get(i) %></td>
                         <td><%= p.mobile_numberList.get(i) %></td>

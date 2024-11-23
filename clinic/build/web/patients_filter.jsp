@@ -1,6 +1,6 @@
 <%-- 
-    Document   : patients_related
-    Created on : Nov 23, 2024, 1:19:06 AM
+    Document   : patients_filter
+    Created on : Nov 23, 2024, 11:07:32 AM
     Author     : kiwik
 --%>
 
@@ -9,13 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Patients and Visits Records</title>
+        <title>Filtered Patient Records</title>
     </head>
     <body>
         <jsp:useBean id="p" class="clinicmanagement.patients" scope="session" />
-        <jsp:useBean id="v" class="clinicmanagement.visits" scope="session" />
-        <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
-        <jsp:useBean id="a" class="clinicmanagement.ailments" scope="session" />
         <table border="1">
             <thead>
                 <tr>
@@ -25,15 +22,12 @@
                     <th>Date of Birth</th>
                     <th>Mobile Number</th>
                     <th>Email</th>
-                    <th>Log In</th>
-                    <th>Log Out</th>
-                    <th>Ailment</th>
-                    <th>Assigned Doctor</th>
                 </tr>
             </thead>
             <tbody>
                 <% 
-                    p.get_related(v, d, a);       
+                    String gender_filter = request.getParameter("gender_filter");
+                    p.filter_patients(gender_filter);
                     for (int i = 0; i < p.patient_idList.size(); i++) {
                 %>
                     <tr>
@@ -43,10 +37,6 @@
                         <td><%= p.birthdateList.get(i) %></td>
                         <td><%= p.mobile_numberList.get(i) %></td>
                         <td><%= p.email_addressList.get(i) %></td>
-                        <td><%= v.log_inList.get(i) %></td>
-                        <td><%= v.log_outList.get(i) %></td>
-                        <td><%= a.nameList.get(i) %></td>
-                        <td><%= d.last_nameList.get(i)%>, <%= d.first_nameList.get(i)%> <%= d.middle_initialList.get(i) %></td>
                     </tr>
                 <% } %>
             </tbody>
