@@ -1,23 +1,22 @@
 <%-- 
-    Document   : remove_patient
-    Created on : Nov 22, 2024, 7:14:13 PM
+    Document   : update_patient
+    Created on : Nov 23, 2024, 2:20:03 PM
     Author     : kiwik
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*, clinicmanagement.*" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Remove Patient Record</title>
+        <title>Select Patient Record</title>
         
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
         <jsp:useBean id="p" class="clinicmanagement.patients" scope="session" />
-        <form action="remove_patient_processing.jsp" method="post">
-            <h2>Select Patient Record to Remove</h2>
+        <form action="update_patient_form.jsp" method="post">
+            <h2>Select Patient Record to Update</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Patient Record</button>
                 <div class="dropdown-content">

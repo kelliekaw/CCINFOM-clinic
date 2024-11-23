@@ -16,7 +16,7 @@
     </head>
     <body>
         <jsp:useBean id="s" class="clinicmanagement.sales" scope="session" />
-        <form action="remove_sale_processing.jsp">
+        <form action="remove_sale_processing.jsp" method="post">
             <h2>Select Sales Record to Remove</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Sales Record</button>
@@ -27,8 +27,6 @@
                     %>
                         <div class="dropdown-item" data-value="<%= s.sale_idList.get(i) %>">
                             <strong>Visit ID: <%= s.visit_idList.get(i) %></strong><br>
-                            Mode of Payment: <%= s.mode_paymentList %><br>
-                            Reference Number: <%= s.ref_numList.get(i) %><br>
                             Amount Paid: <%= s.amt_paidList.get(i) %><br>
                         </div>
                     <% } %>
@@ -52,14 +50,14 @@
                 dropdownContent.classList.toggle('show');
             });
 
-            // Handle item click to select a patient record
+            // Handle item click to select a sale record
             dropdownItems.forEach(item => {
                 item.addEventListener('click', function () {
                     const selectedRecord = item.querySelector('strong').innerText;  // Get the record's display text
-                    const saleId = item.getAttribute('data-value');  // Get the patient ID from data-value attribute
+                    const saleID = item.getAttribute('data-value');  // Get the sale ID from data-value attribute
 
                     dropdownBtn.innerText = selectedRecord;  // Update button text with selected record
-                    document.querySelector('input[name="sale_id"]').value = saleId;  // Set the hidden input value to patient ID
+                    document.querySelector('input[name="sale_id"]').value = saleID;  // Set the hidden input value to sale ID
 
                 });
             });

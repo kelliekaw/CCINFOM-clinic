@@ -1,6 +1,6 @@
 <%-- 
-    Document   : doctors_related
-    Created on : Nov 23, 2024, 2:13:18 AM
+    Document   : doctors_filter
+    Created on : Nov 23, 2024, 11:33:52 AM
     Author     : kiwik
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Doctor and Specialization Records</title>
+        <title>Filtered Doctor Records</title>
     </head>
     <body>
         <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
@@ -28,7 +28,11 @@
             </thead>
             <tbody>
                 <% 
-                    d.get_related_speci();
+                    String gender_filter = request.getParameter("gender_filter");
+                    String[] specialization_filter = request.getParameterValues("specialization_filter[]");
+                    String min_rate = request.getParameter("min_rate");
+                    String max_rate = request.getParameter("max_rate");
+                    d.filter_doctors(gender_filter, specialization_filter, min_rate, max_rate);
                     for (int i = 0; i < d.doctor_idList.size(); i++) {
                 %>
                     <tr>

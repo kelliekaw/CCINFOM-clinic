@@ -14,7 +14,7 @@
     </head>
     <body>
         <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />
-        <form action="index.html">
+        <form action="index.html" method="post">
             <% // Receive values
                String str_drug_id = request.getParameter("drug_id");
                if (str_drug_id == null || str_drug_id.trim().isEmpty()) { %>

@@ -10,10 +10,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="add_patient.jsp">
+        <form action="add_patient.jsp" method="post">
             <h2>Add Patient Record</h2>
             Last Name: <input type="text" id="last_name" name="last_name" required><br><br>
             First Name: <input type="text" id="first_name" name="first_name" required><br><br>
+            Middle Initial: <input type="text" id="middle_initial" name="middle_initial"><br><br>
             Sex Assigned at Birth:<br>
             <label><input type="radio" name="gender" value="M" required>Male</label><br>
             <label><input type="radio" name="gender" value="F">Female</label><br><br>

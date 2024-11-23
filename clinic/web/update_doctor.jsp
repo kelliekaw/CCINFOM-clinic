@@ -1,28 +1,26 @@
 <%-- 
-    Document   : remove_doctor
-    Created on : Nov 22, 2024, 9:48:58 PM
+    Document   : update_doctor
+    Created on : Nov 23, 2024, 3:02:07 PM
     Author     : kiwik
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*, clinicmanagement.*" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Remove Doctor Record</title>
-        
+        <title>Select Doctor Record</title>
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
         <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
-        <form action="remove_doctor_processing.jsp" method="post">
-            <h2>Select Doctor Record to Remove</h2>
+        <form action="update_doctor_form.jsp" method="post">
+            <h2>Select Doctor Record to Update</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Doctor Record</button>
                 <div class="dropdown-content">
                     <% 
-                        d.select_doctor();
+                        d.get_related_speci();
                         for (int i = 0; i < d.doctor_idList.size(); i++) {
                     %>
                         <div class="dropdown-item" data-value="<%= d.doctor_idList.get(i) %>">

@@ -13,7 +13,7 @@
         <title>Add Pharmacy Record</title>
     </head>
     <body>
-        <form action="index.html">
+        <form action="index.html" method="post">
             <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />
             <% // Receive values
                String generic_name = request.getParameter("generic_name");

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : sales
-    Created on : Nov 23, 2024, 1:00:38 AM
+    Document   : sales_filter
+    Created on : Nov 23, 2024, 1:39:13 PM
     Author     : kiwik
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Sales Records</title>
+        <title>Filtered Sales Records</title>
     </head>
     <body>
         <jsp:useBean id="s" class="clinicmanagement.sales" scope="session" />
@@ -23,7 +23,9 @@
             </thead>
             <tbody>
                 <% 
-                    s.select_sale();
+                    String min_amt = request.getParameter("min_amt");
+                    String max_amt = request.getParameter("max_amt");
+                    s.filter_sales(min_amt, max_amt);
                     for (int i = 0; i < s.sale_idList.size(); i++) {
                 %>
                     <tr>

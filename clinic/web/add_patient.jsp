@@ -13,17 +13,18 @@
         <title>Add Patient</title>
     </head>
     <body>
-        <form action="index.html">
+        <form action="index.html" method="post" >
             <jsp:useBean id="p" class="clinicmanagement.patients" scope="session" />
             <% // Receive values
                String last_name = request.getParameter("last_name");
                String first_name = request.getParameter("first_name");
+               String middle_initial = request.getParameter("middle_initial");
                String gender = request.getParameter("gender");
                String birthdate = request.getParameter("birthdate");
                String str_mobile_number = request.getParameter("mobile_number");
                long mobile_number = Long.parseLong(str_mobile_number);
                String email_address = request.getParameter("email_address");
-               p.set_values(last_name, first_name, gender, birthdate, mobile_number, email_address);
+               p.set_values(last_name, first_name, middle_initial, gender, birthdate, mobile_number, email_address);
                boolean status = p.add_patient();
                if (status) {
            %>

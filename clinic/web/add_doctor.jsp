@@ -13,11 +13,12 @@
         <title>Add Doctor Record</title>
     </head>
     <body>
-        <form action="index.html">
+        <form action="index.html" method="post">
             <jsp:useBean id="d" class="clinicmanagement.doctors" scope="session" />
             <% // Receive values
                String last_name = request.getParameter("last_name");
                String first_name = request.getParameter("first_name");
+               String middle_initial = request.getParameter("middle_initial");
                String gender = request.getParameter("gender");
                String birthdate = request.getParameter("birthdate");
                String str_consultation_rate = request.getParameter("consultation_rate");
@@ -25,9 +26,8 @@
                String str_mobile_number = request.getParameter("mobile_number");
                long mobile_number = Long.parseLong(str_mobile_number);
                String email_address = request.getParameter("email_address");
-               String specializations = request.getParameter("selected_specializations");
-               String[] specialization = specializations.split(",");
-               d.set_values(last_name, first_name, gender, birthdate, consultation_rate, mobile_number, email_address, specialization);
+               String[] specializations = request.getParameterValues("specialization[]");
+               d.set_values(last_name, first_name, middle_initial, gender, birthdate, consultation_rate, mobile_number, email_address, specializations);
                boolean status = d.add_doctor();
                if (status) {
            %>

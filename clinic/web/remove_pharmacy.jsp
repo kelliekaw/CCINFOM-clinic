@@ -16,7 +16,7 @@
     </head>
     <body>
         <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />
-        <form action="remove_pharmacy_processing.jsp">
+        <form action="remove_pharmacy_processing.jsp" method="post">
             <h2>Select Pharmacy Record to Remove</h2>
             <div class="custom-dropdown">
                 <button class="dropdown-btn">Select Pharmacy Record</button>
@@ -51,14 +51,14 @@
                 dropdownContent.classList.toggle('show');
             });
 
-            // Handle item click to select a patient record
+            // Handle item click to select a pharmacy record
             dropdownItems.forEach(item => {
                 item.addEventListener('click', function () {
                     const selectedRecord = item.querySelector('strong').innerText;  // Get the record's display text
-                    const drugId = item.getAttribute('data-value');  // Get the patient ID from data-value attribute
+                    const drugId = item.getAttribute('data-value');  // Get the drug ID from data-value attribute
 
                     dropdownBtn.innerText = selectedRecord;  // Update button text with selected record
-                    document.querySelector('input[name="drug_id"]').value = drugId;  // Set the hidden input value to patient ID
+                    document.querySelector('input[name="drug_id"]').value = drugId;  // Set the hidden input value to drug ID
 
                 });
             });

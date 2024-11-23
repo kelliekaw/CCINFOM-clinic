@@ -1,6 +1,6 @@
 <%-- 
-    Document   : pharmacy_related_shipments
-    Created on : Nov 23, 2024, 3:36:24 AM
+    Document   : pharmacy_filter
+    Created on : Nov 23, 2024, 12:21:33 PM
     Author     : kiwik
 --%>
 
@@ -9,12 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Pharmacy and Shipment Records</title>
+        <title>Filtered Pharmacy Records</title>
     </head>
     <body>
         <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />
-        <jsp:useBean id="sd" class="clinicmanagement.shipment_drug" scope="session" />
-        <jsp:useBean id="sh" class="clinicmanagement.shipments" scope="session" />
         <table border="1">
             <thead>
                 <tr>
@@ -23,13 +21,14 @@
                     <th>Brand Name</th>
                     <th>Price</th>
                     <th>Type</th>
-                    <th>Shipment Date</th>
-                    <th>Quantity</th>
                 </tr>
             </thead>
             <tbody>
                 <% 
-                    ph.get_related_shipments(sd, sh);
+                    String[] type_filter = request.getParameterValues("type_filter[]");
+                    String min_price = request.getParameter("min_price");
+                    String max_price = request.getParameter("max_price");
+                    ph.filter_pharmacy(type_filter, min_price, max_price);
                     for (int i = 0; i < ph.drug_idList.size(); i++) {
                 %>
                     <tr>
@@ -38,8 +37,6 @@
                         <td><%= ph.brand_nameList.get(i) %></td>
                         <td><%= ph.priceList.get(i) %></td>
                         <td><%= ph.typeList.get(i) %></td>
-                        <td><%= sh.dateList.get(i) %></td>
-                        <td><%= sd.qtyList.get(i) %></td>
                     </tr>
                 <% } %>
             </tbody>
