@@ -147,15 +147,11 @@ public class sales {
             PreparedStatement ps = conn.prepareStatement("SELECT s.*, ds.qty, d.generic_name, d.brand_name " +
                     "FROM sales s " +
                     "INNER JOIN drugs_sold ds ON s.sale_id = ds.sale_id " +
-                    "INNER JOIN inventory i ON ds.drug_id = i.drug_id " +
-                    "INNER JOIN shipment_drug sd ON i.drug_id = sd.drug_id " +
-                    "INNER JOIN drugs d ON sd.drug_id = d.drug_id;");
+                    "INNER JOIN drugs d ON ds.drug_id = d.drug_id;");
             ResultSet rs = ps.executeQuery();
             
             clearLists();
             ds.clearLists();
-            i.clearLists();
-            sd.clearLists();
             ph.clearLists();
             
             while (rs.next()) {
@@ -314,5 +310,61 @@ public class sales {
         }
     }
     
+    public boolean get_sales_record(int salesID) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SELECT statement
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM sales WHERE sale_id = ?;");
+            ps.setInt(1, salesID);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                sale_id = rs.getInt("sale_id");
+                visit_id = rs.getInt("visit_id");
+                amt_paid = rs.getFloat("amt_paid");
+            }
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean update_sales(int salesID, float newAmt) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            // Update Drug
+            PreparedStatement ps = conn.prepareStatement("UPDATE sales SET amt_paid = ? WHERE sale_id = ?;");
+            ps.setFloat(1, newAmt);
+            ps.setInt(2, salesID);
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     
 }

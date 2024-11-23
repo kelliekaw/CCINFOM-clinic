@@ -3,9 +3,69 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/index.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/prescribed_drugs.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/patients_related.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_record.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/sales_filter.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_patient.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_sales_form.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/patients.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/pharmacy_filter.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/sales_related_drugs.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/patients.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_doctor.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/patients_filter.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/visits.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/sales_filter.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_patient_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_pharmacy.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/ailments.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_sales_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_pharmacy.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_doctor_processing.jsp</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_doctor.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_sale.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/pharmacy_related_prescriptions.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_doctor.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/shipment_drug.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/shipments.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_doctor_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/patients_filter.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_patient_form.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_sale_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/doctors_filter.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/sales_related_visits.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_patient.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_doctor.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/pharmacy.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_record.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_sale.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_pharmacy_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/drugs_sold.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/doctors_filter.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/pharmacy.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/sales.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_sales.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_doctor_form.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_patient_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/pharmacy_related_shipments.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/doctors.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_record.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_pharmacy_form.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/add_patient.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/src/java/clinicmanagement/inventory.java</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/doctors_related_speci.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/index.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/doctors.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_pharmacy.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/sales.jsp</file>
             <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/view_record.html</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/doctors_related_visits.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_sale_processing.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_pharmacy.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/pharmacy_filter.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/remove_patient.jsp</file>
+            <file>file:/C:/Users/kiwik/OneDrive/Documents/NetBeansProjects/clinic/web/update_pharmacy_processing.jsp</file>
         </group>
     </open-files>
 </project-private>

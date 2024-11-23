@@ -50,7 +50,7 @@
                 dropdownContent.classList.toggle('show');
             });
 
-            // Handle item click to select a patient record
+            // Handle item click to select a sale record
             dropdownItems.forEach(item => {
                 item.addEventListener('click', function () {
                     const selectedRecord = item.querySelector('strong').innerText;  // Get the record's display text

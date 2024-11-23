@@ -32,7 +32,6 @@
                         <div class="dropdown-item" data-value="<%= v.visit_idList.get(i) %>">
                             <strong><%= p.last_nameList.get(i) %>, <%= p.first_nameList.get(i) %> <%= p.middle_initialList.get(i) %></strong><br>
                             Log In: <%= v.log_inList.get(i) %><br>
-                            Log Out: <%= v.log_outList.get(i) %><br>
                             Ailment: <%= a.nameList.get(i) %><br>
                             Doctor Assigned: <%= d.last_nameList.get(i) %>, <%= d.first_nameList.get(i) %> <%= d.middle_initialList.get(i) %>
                         </div>

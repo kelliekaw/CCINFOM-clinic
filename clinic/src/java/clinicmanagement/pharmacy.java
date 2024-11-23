@@ -157,7 +157,7 @@ public class pharmacy {
             Connection conn = DriverManager.getConnection(url, username, password);
             
             // Prepare SELECT statement
-            PreparedStatement ps = conn.prepareStatement("SELECT d.*, sd.qty, s.date " +
+            PreparedStatement ps = conn.prepareStatement("SELECT d.*, sd.qty, s.date, s.shipment_cost " +
                     "FROM drugs d " +
                     "INNER JOIN shipment_drug sd ON d.drug_id = sd.drug_id " +
                     "INNER JOIN shipments s ON sd.shipment_id = s.shipment_id;");
@@ -175,6 +175,7 @@ public class pharmacy {
                 sd.qty = rs.getInt("qty");
                 
                 s.date = rs.getString("date");
+                s.shipment_cost = rs.getFloat("shipment_cost");
                 
                 drug_idList.add(drug_id);
                 generic_nameList.add(generic_name);
@@ -185,6 +186,7 @@ public class pharmacy {
                 sd.qtyList.add(sd.qty);
                 
                 s.dateList.add(s.date);
+                s.shipment_costList.add(s.shipment_cost);
             }
             
             ps.close();
@@ -324,6 +326,65 @@ public class pharmacy {
             conn.close();
 
             return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean get_pharmacy_record(int drugID) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SELECT statement
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM drugs WHERE drug_id = ?;");
+            ps.setInt(1, drugID);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                drug_id = rs.getInt("drug_id");
+                generic_name = rs.getString("generic_name");
+                brand_name = rs.getString("brand_name");
+                price = rs.getFloat("price");
+                type = rs.getString("type");
+            }
+
+            return true;
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean update_pharmacy(int drugID, float newPrice) {
+        try {
+            // Connect to database
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Database connection details
+            String url = "jdbc:mysql://localhost:3306/clinic";
+            String username = "root"; 
+            String password = "cupcakes101";  // change with ur password
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, username, password);
+            
+            // Prepare SQL Statement
+            // Update Drug
+            PreparedStatement ps = conn.prepareStatement("UPDATE drugs SET price = ? WHERE drug_id = ?;");
+            ps.setFloat(1, newPrice);
+            ps.setInt(2, drugID);
+            
+            return ps.executeUpdate() > 0;
             
         } catch(Exception e) {
             e.printStackTrace();

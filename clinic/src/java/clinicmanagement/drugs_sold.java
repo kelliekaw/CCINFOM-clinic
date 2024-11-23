@@ -12,12 +12,10 @@ import java.util.*;
 public class drugs_sold {
     
     public int sale_id;
-    public int shipment_id;
     public int drug_id;
     public int qty;
     
     public ArrayList<Integer> sale_idList = new ArrayList<>();
-    public ArrayList<Integer> shipment_idList = new ArrayList<>();
     public ArrayList<Integer> drug_idList = new ArrayList<>();
     public ArrayList<Integer> qtyList = new ArrayList<>();
     
@@ -25,7 +23,6 @@ public class drugs_sold {
     
     public void clearLists() {
         sale_idList.clear();
-        shipment_idList.clear();
         drug_idList.clear();
         qtyList.clear();
     }

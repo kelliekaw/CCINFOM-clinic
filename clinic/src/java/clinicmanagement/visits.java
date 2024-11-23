@@ -16,14 +16,12 @@ public class visits {
     public int visit_id;
     public int patient_id;
     public String log_in;
-    public String log_out;
     public int ailment_id;
     public int doctor_id;
     
     public ArrayList<Integer> visit_idList = new ArrayList<>();
     public ArrayList<Integer> patient_idList = new ArrayList<>();
     public ArrayList<String> log_inList = new ArrayList<>();
-    public ArrayList<String> log_outList = new ArrayList<>();
     public ArrayList<Integer> ailment_idList = new ArrayList<>();
     public ArrayList<Integer> doctor_idList = new ArrayList<>();
     
@@ -33,7 +31,6 @@ public class visits {
         visit_idList.clear();
         patient_idList.clear();
         log_inList.clear();
-        log_outList.clear();
         ailment_idList.clear();
         doctor_idList.clear();
     }
@@ -68,7 +65,6 @@ public class visits {
                 visit_id = rs.getInt("visit_id");
                 patient_id = rs.getInt("patient_id");
                 log_in = rs.getString("log_in");
-                log_out = rs.getString("log_out");
                 ailment_id = rs.getInt("ailment_id");
                 doctor_id = rs.getInt("doctor_id");
                 
@@ -85,7 +81,6 @@ public class visits {
                 visit_idList.add(visit_id);
                 patient_idList.add(patient_id);
                 log_inList.add(log_in);
-                log_outList.add(log_out);
                 ailment_idList.add(ailment_id);
                 doctor_idList.add(doctor_id);
                 

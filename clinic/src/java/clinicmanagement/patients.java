@@ -180,7 +180,7 @@ public class patients {
             Connection conn = DriverManager.getConnection(url, username, password);
             
             // Prepare SELECT statement
-            PreparedStatement ps = conn.prepareStatement("SELECT p.*, v.log_in, v.log_out, "
+            PreparedStatement ps = conn.prepareStatement("SELECT p.*, v.log_in, "
                     + "d.last_name AS `doc_last_name`, d.first_name AS `doc_first_name`, d.middle_initial AS `doc_mid_initial`, a.name " +
                     "FROM patients p " +
                     "INNER JOIN visits v ON p.patient_id = v.patient_id " +
@@ -204,7 +204,6 @@ public class patients {
                 email_address = rs.getString("email_address");
                 
                 v.log_in = rs.getString("log_in");
-                v.log_out = rs.getString("log_out");
                 
                 d.last_name = rs.getString("doc_last_name");
                 d.first_name = rs.getString("doc_first_name");
@@ -222,7 +221,6 @@ public class patients {
                 email_addressList.add(email_address);
                 
                 v.log_inList.add(v.log_in);
-                v.log_outList.add(v.log_out);
                 
                 d.last_nameList.add(d.last_name);
                 d.first_nameList.add(d.first_name);

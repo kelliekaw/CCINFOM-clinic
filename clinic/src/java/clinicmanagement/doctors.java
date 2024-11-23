@@ -148,15 +148,22 @@ public class doctors {
                 mobile_number = rs.getLong("mobile_number");
                 email_address = rs.getString("email_address");
                 
-                doctor_idList.add(doctor_id);
-                last_nameList.add(last_name);
-                first_nameList.add(first_name);
-                middle_initialList.add(middle_initial);
-                genderList.add(gender);
-                birthdateList.add(birthdate);
-                consultation_rateList.add(consultation_rate);
-                mobile_numberList.add(mobile_number);
-                email_addressList.add(email_address);
+                if (doctor_idList.contains(doctor_id)) { // if the doctor is already included (due to specializations)
+                    String updatedSpecialization = specializationList.get(doctor_idList.indexOf(doctor_id)).concat(", " + rs.getString("title"));
+                    specializationList.set(doctor_idList.indexOf(doctor_id), updatedSpecialization);
+                }
+                else {
+                    doctor_idList.add(doctor_id);
+                    last_nameList.add(last_name);
+                    first_nameList.add(first_name);
+                    middle_initialList.add(middle_initial);
+                    genderList.add(gender);
+                    birthdateList.add(birthdate);
+                    consultation_rateList.add(consultation_rate);
+                    mobile_numberList.add(mobile_number);
+                    email_addressList.add(email_address);
+                    specializationList.add(rs.getString("title"));
+                }
             }
             
             ps.close();
@@ -273,8 +280,7 @@ public class doctors {
             Connection conn = DriverManager.getConnection(url, username, password);
             
             // Prepare SELECT Statement
-            PreparedStatement ps = conn.prepareStatement("SELECT d.*, p.last_name AS `patient_lname`, p.first_name AS `patient_fname`, "
-                    + "v.log_in, v.log_out, a.name " +
+            PreparedStatement ps = conn.prepareStatement("SELECT d.*, p.last_name AS `patient_lname`, p.first_name AS `patient_fname` , p.middle_initial AS `patient_mi`, v.log_in, a.name \n" +
                     "FROM doctors d " +
                     "INNER JOIN visits v ON d.doctor_id = v.doctor_id " +
                     "INNER JOIN patients p ON v.patient_id = p.patient_id " +
@@ -299,9 +305,9 @@ public class doctors {
                 
                 p.last_name = rs.getString("patient_lname");
                 p.first_name = rs.getString("patient_fname");
+                p.middle_initial = rs.getString("patient_mi");
                 
                 v.log_in = rs.getString("log_in");
-                v.log_out = rs.getString("log_out");
                 
                 a.name = rs.getString("name");
                 
@@ -317,9 +323,9 @@ public class doctors {
                 
                 p.last_nameList.add(p.last_name);
                 p.first_nameList.add(p.first_name);
+                p.middle_initialList.add(p.middle_initial);
                 
                 v.log_inList.add(v.log_in);
-                v.log_outList.add(v.log_out);
                 
                 a.nameList.add(a.name);
             }
