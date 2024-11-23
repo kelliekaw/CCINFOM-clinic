@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Transaction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .form-row {
+            display: flex;
+            margin-top: 10px;
+            align-items: center;
+        }
+        .form-row input {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .form-row button {
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            width: auto;
+        }
+        .form-row button.remove-btn {
+            background-color: #f44336;
+        }
+        .form-row button.remove-btn:hover {
+            background-color: #e53935;
+        }
+        #addRow {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #addRow:hover {
+            background-color: #45a049;
+        }
+        #loading {
+            text-align: center;
+            font-size: 1.5em;
+            color: #888;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pharmacy Transaction</h1>
+
+    <!-- Visit Info -->
+    <label for="visitId">Visit ID</label>
+    <input type="text" id="visitId" placeholder="Enter Visit ID" required>
+
+    <h3>Drugs in Transaction</h3>
+
+    <!-- Drugs List -->
+    <div id="drugsList">
+        <div class="form-row">
+            <input type="text" placeholder="Drug Name" class="drug-name" required>
+            <input type="number" placeholder="Quantity" class="drug-quantity" required>
+            <button type="button" class="remove-btn">Remove</button>
+        </div>
+    </div>
+
+    <button type="button" id="addRow">Add Drug</button>
+    <br><br>
+    <button type="submit" id="submitTransaction">Submit Transaction</button>
+    <div id="loading">Loading...</div>
+</div>
+
+<script>
+    // Function to add a new row for drug inputs
+    document.getElementById('addRow').addEventListener('click', function() {
+        const drugsList = document.getElementById('drugsList');
+        
+        const newRow = document.createElement('div');
+        newRow.classList.add('form-row');
+        
+        newRow.innerHTML = `
+            <input type="text" placeholder="Drug Name" class="drug-name" required>
+            <input type="number" placeholder="Quantity" class="drug-quantity" required>
+            <button type="button" class="remove-btn">Remove</button>
+        `;
+        
+        // Add remove button functionality
+        newRow.querySelector('.remove-btn').addEventListener('click', function() {
+            drugsList.removeChild(newRow);
+        });
+
+        // Add the new row to the drugs list
+        drugsList.appendChild(newRow);
+    });
+
+    // Handle the form submission
+    document.getElementById('submitTransaction').addEventListener('click', async function() {
+        const visitId = document.getElementById('visitId').value;
+        const drugs = [];
+
+        const drugRows = document.querySelectorAll('.form-row');
+        drugRows.forEach(row => {
+            const drugName = row.querySelector('.drug-name').value;
+            const drugQuantity = row.querySelector('.drug-quantity').value;
+            
+            if (drugName && drugQuantity) {
+                drugs.push({ name: drugName, quantity: drugQuantity });
+            }
+        });
+
+        if (!visitId || drugs.length === 0) {
+            alert("Please fill in all the fields.");
+            return;
+        }
+
+        const transactionData = {
+            visitId: visitId,
+            drugs: drugs
+        };
+
+        // Display loading message
+        document.getElementById('loading').style.display = 'block';
+
+        try {
+            // Send the transaction data to the server
+            const response = await fetch('http://localhost:8080/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(transactionData)
+            });
+
+            const result = await response.json();
+            console.log(response.json());
+            if (response.ok) {
+                alert('Transaction submitted successfully');
+            } else {
+                alert('Failed to submit transaction: ' + result.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to submit transaction');
+        } finally {
+            // Hide loading message
+            document.getElementById('loading').style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>

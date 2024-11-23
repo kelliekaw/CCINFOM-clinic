@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Tabs */
+        .tab {
+            display: none;
+        }
+        .tab-button {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            margin: 0;
+            margin-right: 5px;
+        }
+        .tab-button.active {
+            background-color: #45a049;
+        }
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Doctor's Dashboard</h1>
+
+    <!-- Tab buttons -->
+    <div id="tabs">
+        <button class="tab-button active" data-tab="1">Diagnosis View</button>
+        <button class="tab-button" data-tab="2">Prescription View</button>
+        <button class="tab-button" data-tab="3">Prescribe Drug</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div id="tab-1" class="tab-content active">
+        <h2>Doctor's Diagnosis View</h2>
+        <label for="patientId">Enter Patient ID</label>
+        <input type="number" id="patientId" placeholder="Patient ID">
+        <button id="fetchDiagnosis">Get Diagnosis</button>
+        <h3>Diagnosis Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Visit ID</th>
+                    <th>Log In</th>
+                    <th>Ailment Name</th>
+                </tr>
+            </thead>
+            <tbody id="diagnosisTable">
+                <!-- Diagnosis details will populate here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab-2" class="tab-content">
+        <h2>Prescribed Drugs</h2>
+        <form id="drugForm">
+            <label for="visitId">Visit ID</label>
+            <input type="number" id="visitId" name="visitId" placeholder="Enter Visit ID" required>
+            <button type="submit">Search</button>
+        </form>
+        <h3>Drugs Prescribed</h3>
+        <table id="drugsTable">
+            <thead>
+                <tr>
+                    <th>Drug ID</th>
+                    <th>Brand Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab-3" class="tab-content">
+        <h2>Prescribe Drug</h2>
+        <form id="prescriptionForm">
+            <label for="visit_id">Visit ID:</label>
+            <input type="number" id="visit_id" name="visit_id" required>
+            <br><br>
+
+            <label for="drug_name">Drug Name (Brand):</label>
+            <input type="text" id="drug_name" name="drug_name" required>
+            <br><br>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required>
+            <br><br>
+
+            <button type="submit">Prescribe</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+</div>
+
+<script>
+    // Tab functionality
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabNumber = button.getAttribute('data-tab');
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            // Activate selected tab
+            button.classList.add('active');
+            document.getElementById(`tab-${tabNumber}`).classList.add('active');
+        });
+    });
+
+    // Module 1: Fetch Diagnosis Details
+    document.getElementById('fetchDiagnosis').addEventListener('click', async () => {
+        const patientId = document.getElementById('patientId').value;
+        const tableBody = document.getElementById('diagnosisTable');
+
+        if (!patientId) {
+            alert('Please enter a patient ID.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/diagnosis/${patientId}`);
+            if (!response.ok) {
+                const error = await response.json();
+                alert(error.message || 'Error fetching diagnosis details.');
+                return;
+            }
+
+            const diagnosis = await response.json();
+            tableBody.innerHTML = '';  // Clear the table before inserting new data
+
+            diagnosis.forEach(({ visit_id, log_in, name }) => { // Removed log_out from destructuring
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = visit_id;
+                row.insertCell(1).textContent = log_in;
+                row.insertCell(2).textContent = name;
+            });
+        } catch (error) {
+            console.error('Error fetching diagnosis:', error);
+            alert('Error fetching diagnosis. Check the console for details.');
+        }
+    });
+
+    // Module 2: Fetch Prescribed Drugs
+    document.getElementById('drugForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const visitId = document.getElementById('visitId').value;
+        const drugsTableBody = document.getElementById('drugsTable').getElementsByTagName('tbody')[0];
+
+        try {
+            const response = await fetch(`http://localhost:8080/prescriptions/${visitId}`);
+            const drugs = await response.json();
+
+            drugsTableBody.innerHTML = '';  // Clear existing rows
+
+            drugs.forEach(drug => {
+                const row = drugsTableBody.insertRow();
+                row.insertCell(0).textContent = drug.drug_id || 'N/A';
+                row.insertCell(1).textContent = drug.brand_name || 'N/A';
+            });
+
+        } catch (error) {
+            console.error('Error fetching drug data:', error);
+            alert('Failed to fetch drug data for the given Visit ID');
+        }
+    });
+
+    // Module 3: Prescribe Drug
+    document.getElementById("prescriptionForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const visit_id = document.getElementById("visit_id").value;
+        const drug_name = document.getElementById("drug_name").value;
+        const amount = document.getElementById("amount").value;
+
+        try {
+            const response = await fetch("http://localhost:8080/prescriptions/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ visit_id, drug_name, amount }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById("response").textContent = "Prescription added successfully!";
+            } else {
+                document.getElementById("response").textContent = result.message || "Error adding prescription.";
+            }
+        } catch (error) {
+            document.getElementById("response").textContent = "An error occurred. Please try again.";
+            console.error("Error:", error);
+        }
+    });
+</script>
+
+</body>
+</html>

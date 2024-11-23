@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Drug Shipment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .form-row {
+            display: flex;
+            margin-top: 10px;
+            align-items: center;
+        }
+        .form-row input {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            font-size: 14px; /* Adjust input text size */
+        }
+        .form-row button {
+            padding: 6px 12px;  /* Smaller padding */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px; /* Adjust button text size */
+            width: auto; /* Adjust width to fit the content */
+        }
+        .form-row button.remove-btn {
+            background-color: #f44336;
+        }
+        .form-row button.remove-btn:hover {
+            background-color: #e53935;
+        }
+        #addRow {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #addRow:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>New Drug Shipment</h1>
+
+    <!-- Shipment Info -->
+    <label for="shipmentDate">Shipment Date</label>
+    <input type="date" id="shipmentDate" required>
+
+    <label for="shipmentCost">Cost of Shipment</label>
+    <input type="number" id="shipmentCost" placeholder="Cost" required>
+
+    <h3>Drugs in Shipment</h3>
+
+    <!-- Drugs List -->
+    <div id="drugsList">
+        <div class="form-row">
+            <input type="text" placeholder="Drug Name" class="drug-name" required>
+            <input type="number" placeholder="Quantity" class="drug-quantity" required>
+            <input type="number" placeholder="Price" class="drug-price" required>
+            <button type="button" class="remove-btn">Remove</button>
+        </div>
+    </div>
+
+    <button type="button" id="addRow">Add Drug</button>
+    <br><br>
+    <button type="submit" id="submitShipment">Submit Shipment</button>
+</div>
+
+<script>
+    // Function to add a new row for drug inputs
+    document.getElementById('addRow').addEventListener('click', function() {
+        const drugsList = document.getElementById('drugsList');
+        
+        const newRow = document.createElement('div');
+        newRow.classList.add('form-row');
+        
+        newRow.innerHTML = `
+            <input type="text" placeholder="Drug Name" class="drug-name" required>
+            <input type="number" placeholder="Quantity" class="drug-quantity" required>
+            <input type="number" placeholder="Price" class="drug-price" required>
+            <button type="button" class="remove-btn">Remove</button>
+        `;
+        
+        // Add remove button functionality
+        newRow.querySelector('.remove-btn').addEventListener('click', function() {
+            drugsList.removeChild(newRow);
+        });
+
+        // Add the new row to the drugs list
+        drugsList.appendChild(newRow);
+    });
+
+    // Handle the form submission
+    document.getElementById('submitShipment').addEventListener('click', function() {
+        const shipmentDate = document.getElementById('shipmentDate').value;
+        const shipmentCost = document.getElementById('shipmentCost').value;
+        const drugs = [];
+
+        const drugRows = document.querySelectorAll('.form-row');
+        drugRows.forEach(row => {
+            const drugName = row.querySelector('.drug-name').value;
+            const drugQuantity = row.querySelector('.drug-quantity').value;
+            const drugPrice = row.querySelector('.drug-price').value;
+            
+            if (drugName && drugQuantity && drugPrice) {
+                drugs.push({ name: drugName, quantity: drugQuantity, price: drugPrice });
+            }
+        });
+
+        if (!shipmentDate || !shipmentCost || drugs.length === 0) {
+            alert("Please fill in all the fields.");
+            return;
+        }
+
+        const shipmentData = {
+            shipmentDate: shipmentDate,
+            shipmentCost: shipmentCost,
+            drugs: drugs
+        };
+
+        // For demonstration purposes, log the shipment data to the console
+        console.log('Shipment Data:', shipmentData);
+
+        // Here you can make a fetch request to submit the data to your server
+        // Example:
+        
+        fetch('http://localhost:8080/shipments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(shipmentData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Shipment submitted successfully');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to submit shipment');
+        });
+        
+    });
+</script>
+
+</body>
+</html>

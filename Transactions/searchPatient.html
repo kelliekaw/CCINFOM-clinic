@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Patient</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+    .form-container label {
+      display: block;
+      margin: 8px 0;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-container button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+    .results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Search Patient</h1>
+
+  <div class="form-container">
+    <form id="searchForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
+
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
+
+      <button type="submit">Search</button>
+    </form>
+    
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById('searchForm').addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent form from reloading the page
+
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+
+      try {
+        // Make GET request to the backend API
+        const response = await fetch(`http://localhost:8080/patients?first_name=${firstName}&last_name=${lastName}`);
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Display results
+          if (data.length > 0) {
+            let resultHTML = "<h3>Patient Found:</h3><ul>";
+            data.forEach(patient => {
+              resultHTML += `<li>ID: ${patient.patient_id} | Name: ${patient.first_name} ${patient.last_name} | Gender: ${patient.gender} | Birthdate: ${patient.birthdate} | Mobile: ${patient.mobile_number}</li>`;
+            });
+            resultHTML += "</ul>";
+            document.getElementById('results').innerHTML = resultHTML;
+          } else {
+            document.getElementById('results').innerHTML = "<p>No patient found with that name.</p>";
+          }
+        } else {
+          document.getElementById('results').innerHTML = "<p>Error fetching patient data. Please try again later.</p>";
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results').innerHTML = "<p>Something went wrong. Please try again later.</p>";
+      }
+    });
+  </script>
+
+</body>
+</html>

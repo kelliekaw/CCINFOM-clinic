@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .menu a {
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .menu a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the System Dashboard</h1>
+
+    <div class="container">
+        <h2>Navigate to the Pages</h2>
+        <div class="menu">
+            <a href="doctorsView.html" target="_blank">Doctors View</a>
+            <a href="inventory.html" target="_blank">Inventory</a>
+            <a href="lowinventory.html" target="_blank">Low Inventory</a>
+            <a href="searchPatient.html" target="_blank">Search Patients</a>
+            <a href="shipments.html" target="_blank">Shipments</a>
+            <a href="transactions.html" target="_blank">Transactions</a>
+            <a href="visitsReceptionist.html" target="_blank">Visits (Receptionist)</a>
+        </div>
+    </div>
+
+</body>
+</html>

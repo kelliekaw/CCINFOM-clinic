@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drugs Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stock of Drugs</h1>
+    <div id="loading" class="loading">Loading...</div>
+    <table id="inventoryTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Drug ID</th>
+                <th>Drug Name</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch low stock drugs and update the table
+        async function fetchLowStockDrugs() {
+            try {
+                // Fetch data from the API
+                const response = await fetch('http://localhost:8080/inventory');
+                
+                // Check if response is ok (status 200-299)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                
+                // Parse JSON response
+                const drugs = await response.json();
+                
+                // Get the table body element
+                const tableBody = document.querySelector('#inventoryTable tbody');
+                
+                // Clear any previous rows
+                tableBody.innerHTML = '';
+                
+                // If no drugs are low in stock, display a message
+                if (drugs.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="3" style="text-align: center;">No low stock drugs available</td>`;
+                    tableBody.appendChild(row);
+                } else {
+                    // Loop through each drug and create a table row
+                    drugs.forEach(drug => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${drug.drug_id}</td>
+                            <td>${drug.brand_name}</td>
+                            <td>${drug.qty}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                // Hide the loading message and show the table
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('inventoryTable').style.display = 'table';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').innerText = 'Failed to load data.';
+            }
+        }
+
+        // Fetch and display the data when the page loads
+        window.onload = fetchLowStockDrugs;
+    </script>
+</body>
+</html>

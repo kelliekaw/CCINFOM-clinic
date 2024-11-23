@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptionist Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 70%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Receptionist Dashboard</h2>
+    <form id="visitForm">
+        <label for="patientId">Patient ID</label>
+        <input type="number" id="patientId" name="patientId" required>
+
+        <label for="logInTime">Log In Time</label>
+        <input type="datetime-local" id="logInTime" name="logInTime" required>
+
+        <label for="ailment">Ailment</label>
+        <select id="ailment" name="ailment" required>
+            <option value="">Select an Ailment</option> <!-- Empty option to start -->
+            <option value="Eczema">Eczema</option>
+            <option value="Insect Sting">Insect Sting</option>
+            <option value="Food Allergy">Food Allergy</option>
+            <option value="Allergy Reactions">Allergy Reactions</option>
+            <option value="Arrhythmia">Arrhythmia</option>
+            <option value="Skin Allergies">Skin Allergies</option>
+            <option value="Acne">Acne</option>
+            <option value="Hyperacidity">Hyperacidity</option>
+            <option value="Diarrhea">Diarrhea</option>
+            <option value="Depression">Depression</option>
+            <option value="Anxiety">Anxiety</option>
+            <option value="Schizophrenia">Schizophrenia</option>
+            <option value="Arthritis">Arthritis</option>
+            <option value="Back Pain">Back Pain</option>
+            <option value="Gout">Gout</option>
+            <option value="Common Cold">Common Cold</option>
+            <option value="Fever">Fever</option>
+            <option value="Flu">Flu</option>
+            <option value="Nausea">Nausea</option>
+            <option value="Muscle Pain">Muscle Pain</option>
+            <option value="Sore Throat">Sore Throat</option>
+            <option value="Conjunctivitis">Conjunctivitis</option>
+        </select>
+
+        <h3>Doctors Specializing in the Selected Illness</h3>
+        <table id="doctorsTable">
+            <thead>
+                <tr>
+                    <th>Doctor ID</th>
+                    <th>Doctor Name</th>
+                    <th>Consultation Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Doctors will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <label for="doctorId">Assign Doctor (Enter Doctor ID)</label>
+        <input type="number" id="doctorId" name="doctorId" required>
+
+        <button type="submit">Submit Visit</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('ailment').addEventListener('change', async function() {
+        const ailmentName = this.value;
+        const doctorsTableBody = document.getElementById('doctorsTable').getElementsByTagName('tbody')[0];
+
+        // Clear the table rows if no ailment is selected
+        if (!ailmentName) {
+            doctorsTableBody.innerHTML = ''; // Empty table
+            return;
+        }
+
+        try {
+            // Request doctors who specialize in the selected ailment
+            const response = await fetch(`http://localhost:8080/doctors/for-ailment/${ailmentName}`);
+            const doctors = await response.json();
+
+            // Clear existing table rows
+            doctorsTableBody.innerHTML = '';
+
+            // Populate the table with the doctors
+            doctors.forEach(doctor => {
+                const row = doctorsTableBody.insertRow();
+                // Adjust the keys based on the API response
+                row.insertCell(0).textContent = doctor.doctor_id || 'N/A';
+                row.insertCell(1).textContent = doctor.last_name + ', ' + doctor.first_name + ' ' + doctor.middle_initial + '.' || 'N/A'; // Full name
+                row.insertCell(2).textContent = doctor.consultation_rate || 'N/A'; // Consult rate
+            });
+        } catch (error) {
+            console.error('Error fetching doctors:', error);
+            alert('Error fetching doctors for the selected illness');
+        }
+    });
+
+    document.getElementById('visitForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const patientId = document.getElementById('patientId').value;
+        let logInTime = document.getElementById('logInTime').value;
+        const ailment = document.getElementById('ailment').value;
+        const doctorId = document.getElementById('doctorId').value;
+
+        // Remove the seconds part from the datetime-local value
+        logInTime = logInTime.slice(0, 16); // Remove seconds and milliseconds
+
+        const visitData = {
+            patient_id: patientId,
+            log_in: logInTime,
+            ailment: ailment, // Pass the ailment name, backend will map to ID
+            doctor_id: doctorId // Include the selected doctor ID
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/visits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(visitData)
+            });
+
+            if (response.ok) {
+                alert('Visit recorded successfully!');
+                document.getElementById('visitForm').reset(); // Reset form after successful submission
+            } else {
+                const error = await response.text();
+                alert('Error: ' + error);
+            }
+        } catch (error) {
+            console.error('Error submitting visit:', error);
+            alert('Error submitting visit');
+        }
+    });
+</script>
+
+</body>
+</html>
