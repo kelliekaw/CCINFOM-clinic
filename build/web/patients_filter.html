@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Patients Filter</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="patients_filter.jsp" method="get">
+            Gender:<br>
+            <label><input type="radio" name="gender_filter" value="M">Male</label><br>
+            <label><input type="radio" name="gender_filter" value="F">Female</label><br>
+            <label><input type="radio" name="gender_filter" value="" checked>All</label><br>
+            <br>
+            <input type="submit" value="Filter">
+        </form>
+    </body>
+</html>
