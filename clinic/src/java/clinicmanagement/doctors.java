@@ -148,22 +148,18 @@ public class doctors {
                 mobile_number = rs.getLong("mobile_number");
                 email_address = rs.getString("email_address");
                 
-                if (doctor_idList.contains(doctor_id)) { // if the doctor is already included (due to specializations)
-                    String updatedSpecialization = specializationList.get(doctor_idList.indexOf(doctor_id)).concat(", " + rs.getString("title"));
-                    specializationList.set(doctor_idList.indexOf(doctor_id), updatedSpecialization);
-                }
-                else {
-                    doctor_idList.add(doctor_id);
-                    last_nameList.add(last_name);
-                    first_nameList.add(first_name);
-                    middle_initialList.add(middle_initial);
-                    genderList.add(gender);
-                    birthdateList.add(birthdate);
-                    consultation_rateList.add(consultation_rate);
-                    mobile_numberList.add(mobile_number);
-                    email_addressList.add(email_address);
-                    specializationList.add(rs.getString("title"));
-                }
+                
+                doctor_idList.add(doctor_id);
+                last_nameList.add(last_name);
+                first_nameList.add(first_name);
+                middle_initialList.add(middle_initial);
+                genderList.add(gender);
+                birthdateList.add(birthdate);
+                consultation_rateList.add(consultation_rate);
+                mobile_numberList.add(mobile_number);
+                email_addressList.add(email_address);
+                specializationList.add(rs.getString("title"));
+                
             }
             
             ps.close();

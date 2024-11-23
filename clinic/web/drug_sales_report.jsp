@@ -13,7 +13,7 @@
     </head>
     <body>
         <jsp:useBean id="ds" class="clinicmanagement.drugs_sold" scope="session" />
-        <jsp:useBean id="p" class="clinicmanagement.pharmacy" scope="session" />
+        <jsp:useBean id="ph" class="clinicmanagement.pharmacy" scope="session" />
         <table border="1">
             <thead>
                 <tr>
@@ -27,14 +27,14 @@
             </thead>
             <tbody>
                 <% 
-                    ds.drug_sales_report(p);
+                    ds.drug_sales_report(ph);
                     for (int i = 0; i < ds.year_soldList.size(); i++) {
                 %>
                     <tr>
                         <td><%= ds.year_soldList.get(i) %></td>
                         <td><%= ds.month_soldList.get(i) %></td>
                         <td><%= ds.drug_idList.get(i) %></td>
-                        <td><%= p.generic_nameList.get(i) %></td>
+                        <td><%= ph.generic_nameList.get(i) %></td>
                         <td><%= ds.num_of_drugs_soldList.get(i) %></td>
                         <td><%= ds.total_revenueList.get(i) %></td>
                     </tr>

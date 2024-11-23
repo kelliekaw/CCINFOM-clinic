@@ -36,6 +36,11 @@ public class drugs_sold {
         sale_idList.clear();
         drug_idList.clear();
         qtyList.clear();
+        year_soldList.clear();
+        month_soldList.clear();
+        num_of_drugs_soldList.clear();
+        total_revenueList.clear();
+                
     }
     
     public boolean drug_sales_report(pharmacy ph) {

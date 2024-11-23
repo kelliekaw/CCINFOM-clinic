@@ -22,7 +22,7 @@
                 <button class="dropdown-btn">Select Doctor Record</button>
                 <div class="dropdown-content">
                     <% 
-                        d.select_doctor();
+                        d.get_related_speci();
                         for (int i = 0; i < d.doctor_idList.size(); i++) {
                     %>
                         <div class="dropdown-item" data-value="<%= d.doctor_idList.get(i) %>">

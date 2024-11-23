@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 <% 
-                    d.select_doctor();
+                    d.filter_doctors(null, null, null, null);
                     for (int i = 0; i < d.doctor_idList.size(); i++) {
                 %>
                     <tr>
